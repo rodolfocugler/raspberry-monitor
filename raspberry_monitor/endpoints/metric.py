@@ -3,6 +3,8 @@ from http import HTTPStatus
 
 from flask_restx import Namespace, Resource
 
+from raspberry_monitor.metrics import metric_read
+
 api = Namespace("metrics")
 
 
@@ -15,5 +17,7 @@ class Metric(Resource):
                  HTTPStatus.OK: "Metrics"
              })
     def get(self):
-        logging.info(f"get metrics")
-        return ""
+        logging.debug(f"get metrics")
+        metrics = metric_read.get()
+        logging.info(f"return {metrics}")
+        return metrics
