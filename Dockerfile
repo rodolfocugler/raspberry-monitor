@@ -13,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./ .
 
-ENTRYPOINT waitress-serve --port=$FLASK_PORT --callraspberry_monitor:create_app
+ENTRYPOINT waitress-serve --port=$FLASK_PORT --call raspberry_monitor:create_app
