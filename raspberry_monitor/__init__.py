@@ -1,7 +1,6 @@
 import logging
 import os
 
-from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 from flask_basicauth import BasicAuth
 
@@ -22,16 +21,8 @@ def create_app():
 
     api.init_app(app)
     configure_logging()
-    configure_background_scheduler()
     BasicAuth(app)
     return app
-
-
-def configure_background_scheduler():
-    return
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(func=configure_background_scheduler, trigger="interval", seconds=600)
-    scheduler.start()
 
 
 def configure_logging():
