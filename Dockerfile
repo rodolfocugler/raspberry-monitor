@@ -1,5 +1,8 @@
 FROM python:3.9
 
+RUN apt-get update -y && \
+    apt-get install bmon
+
 WORKDIR /usr/src/app
 
 COPY requirements.txt ./
