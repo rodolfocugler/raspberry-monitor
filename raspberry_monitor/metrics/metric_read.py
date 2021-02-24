@@ -7,7 +7,11 @@ def get():
         "memory": get_memory(),
         "disk": get_disk(),
         "temperature": get_temperature(),
-        "cpu": get_cpu()
+        "cpu": get_cpu(),
+        "network": {
+            "eth0": get_network("eth0"),
+            "wlan0": get_network("wlan0")
+        }
     }
 
 
@@ -43,6 +47,15 @@ def get_cpu():
     output = stream.read().split("\n")[:-1]
     total, used, free = int(output[0]), int(output[1]), int(output[2])
     return calculate_total_used_free(total, used, free)
+
+
+def get_network(interface):
+    stream = os.popen(f"bmon -r 2 -o 'ascii:quitafter=2' -p {interface}")
+    output = stream.read().split("\n")[3]
+    output = re.sub(r"\s+", " ", output).split(" ")
+    rx, tx = int(re.sub(r"\D", "", output[2])), int(re.sub(r"\D", "", output[4]))
+    rx_unit, tx_unit = re.sub(r"\d", "", output[2]), re.sub(r"\d", "", output[4])
+    return {"rx": rx, "rx_unit": rx_unit, "tx": tx, "tx_unit": tx_unit}
 
 
 def calculate_total_used_free_memory(total, used, free):
