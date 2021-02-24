@@ -1,5 +1,7 @@
 FROM python:3.9
 
+ENV FLASK_PORT 80
+
 RUN apt-get update -y && \
     apt-get install bmon
 
@@ -11,4 +13,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY ./ .
 
-CMD ["waitress-serve", "--port=80", "--call",  "raspberry_monitor:create_app"]
+CMD ["waitress-serve", "--port=$FLASK_PORT", "--call",  "raspberry_monitor:create_app"]
