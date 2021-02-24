@@ -3,7 +3,7 @@ FROM python:3.9
 ENV FLASK_PORT 80
 
 RUN apt-get update -y && \
-    apt-get install bmon
+    apt-get install bmon -y
 
 WORKDIR /usr/src/app
 
