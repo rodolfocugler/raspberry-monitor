@@ -32,7 +32,7 @@ def get_temperature():
 
 
 def get_disk():
-    stream = os.popen("df -a")
+    stream = os.popen("df /host/ -a")
     output = stream.read().split("\n")
     output = list(filter(lambda x: "/dev/mmcblk0p2" in x, output))[0][16:]
     output = re.sub(r"\s+", " ", output)
