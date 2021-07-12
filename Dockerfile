@@ -6,6 +6,7 @@ RUN apt-get update -y && \
     apt-get install bmon -y
 
 WORKDIR /usr/src/app
+ENV BASE_PATH /usr/src/app
 
 COPY requirements.txt ./
 RUN pip install --upgrade pip
