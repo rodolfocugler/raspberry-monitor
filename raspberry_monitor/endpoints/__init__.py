@@ -17,7 +17,7 @@ def get_authorizations():
                 "bearerFormat": "JWT",
                 "tokenUrl": data["web"]["token_uri"],
                 "authorizationUrl": data["web"]["auth_uri"],
-                "flow": "application"
+                "flow": "password"
             }
         }
     elif conf.BASIC_AUTH_FORCE:
