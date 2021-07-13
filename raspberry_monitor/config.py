@@ -14,3 +14,4 @@ class Config:
     OIDC_INTROSPECTION_AUTH_METHOD = "client_secret_post"
     OIDC_TOKEN_TYPE_HINT = "access_token"
     OIDC_CLIENT_SECRETS = os.getenv("BASE_PATH") + os.getenv("OIDC_CLIENT_SECRETS", "/client_secrets.json")
+    OIDC_RESOURCE_CHECK_AUD = True
