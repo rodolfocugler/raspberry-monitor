@@ -4,7 +4,7 @@ from http import HTTPStatus
 from flask_restx import Namespace, Resource
 
 from raspberry_monitor import config, oidc
-from raspberry_monitor.metrics import metric_read
+from raspberry_monitor.services import metric_read
 
 api = Namespace("metrics")
 
