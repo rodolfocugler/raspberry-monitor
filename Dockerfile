@@ -8,8 +8,8 @@ RUN apt-get update -y && \
 
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 
-WORKDIR /usr/src/app
-ENV BASE_PATH /usr/src/app
+WORKDIR /app
+ENV BASE_PATH /app
 
 COPY requirements.txt ./
 RUN pip install --upgrade pip
