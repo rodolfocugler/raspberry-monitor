@@ -4,7 +4,8 @@ ENV FLASK_PORT 80
 
 RUN apt-get update -y && \
     apt-get -y install  sudo \
-                        bmon
+                        bmon \
+                        sysstat
 
 RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
 

@@ -1,5 +1,6 @@
 import os
 import re
+import json
 
 
 def get():
@@ -42,11 +43,9 @@ def get_disk():
 
 
 def get_cpu():
-    stream = os.popen(
-        "grep 'cpu ' /proc/stat | awk '{t=($2+$4+$5)} {u=($2+$4)} {f=(t-u)} END {print t; print u; print f}'")
-    output = stream.read().split("\n")[:-1]
-    total, used, free = int(output[0]), int(output[1]), int(output[2])
-    return calculate_total_used_free(total, used, free)
+    stream = os.popen("mpstat -o JSON")
+    output = json.loads(stream.read())
+    return output["sysstat"]["hosts"][0]["statistics"][0]["cpu-load"][0]
 
 
 def get_network(interface):
