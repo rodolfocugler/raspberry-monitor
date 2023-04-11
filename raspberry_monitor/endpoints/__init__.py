@@ -3,7 +3,6 @@ import json
 from flask_restx import Api
 
 from raspberry_monitor.endpoints.metric import api as ns_metric
-from raspberry_monitor.endpoints.commands import api as ns_commands
 
 
 def get_authorizations():
@@ -37,4 +36,3 @@ api = Api(
 )
 
 api.add_namespace(ns_metric, path="/api")
-api.add_namespace(ns_commands, path="/api")
