@@ -36,7 +36,7 @@ def get_disk():
     stream = os.popen("df /host/ -a")
     output = stream.read().split("\n")
     output = list(filter(lambda x: "/dev/mmcblk0p2" in x, output))[0][15:]
-    output = re.sub(r"\s+", " ", output)
+    output = re.sub(r"\s+", " ", output.strip())
     output = output.split(" ")
     total, used, free = int(output[0]), int(output[1]), int(output[2])
     return calculate_total_used_free_memory(total, used, free)
