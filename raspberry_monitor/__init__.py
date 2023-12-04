@@ -21,8 +21,10 @@ def create_app():
     except OSError:
         pass
 
-    global oidc
-    oidc = OpenIDConnect(app)
+    if conf.OIDC_ENABLED:
+        global oidc
+        oidc = OpenIDConnect(app)
+        
     from raspberry_monitor.endpoints import api
     api.init_app(app)
     configure_logging()
