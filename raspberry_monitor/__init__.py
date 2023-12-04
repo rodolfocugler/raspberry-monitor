@@ -2,10 +2,6 @@ import logging
 import os
 
 from flask import Flask
-from flask_basicauth import BasicAuth
-from flask_oidc import OpenIDConnect
-
-oidc = None
 
 
 def create_app():
@@ -20,17 +16,10 @@ def create_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    if conf.OIDC_ENABLED:
-        global oidc
-        oidc = OpenIDConnect(app)
         
     from raspberry_monitor.endpoints import api
     api.init_app(app)
     configure_logging()
-
-    if conf.BASIC_AUTH_FORCE:
-        BasicAuth(app)
     return app
 
 
