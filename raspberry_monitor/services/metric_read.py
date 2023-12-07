@@ -58,7 +58,7 @@ def get_backups():
         for user in os.listdir(user_path):
             folders = os.listdir(f"{user_path}/{user}")
             if len(folders) > 0:
-                backups.append(path)
+                backups.append(path.name)
 
     return backups
 
