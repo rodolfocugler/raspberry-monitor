@@ -1,10 +1,15 @@
 import os
 import re
 import json
+from pathlib import Path
+
+from raspberry_monitor import config
+
+conf = config.Config()
 
 
 def get():
-    return {
+    metrics = {
         "memory": get_memory(),
         "disk": get_disk(),
         "temperature": get_temperature(),
@@ -14,6 +19,10 @@ def get():
             "wlan0": get_network("wlan0")
         }
     }
+
+    if conf.BACKUP_PATH is not None:
+        metrics["backups"] = get_backups()
+    return metrics
 
 
 def get_memory():
@@ -40,6 +49,18 @@ def get_disk():
     output = output.split(" ")
     total, used, free = int(output[0]), int(output[1]), int(output[2])
     return calculate_total_used_free_memory(total, used, free)
+
+
+def get_backups():
+    backups = []
+    for path in sorted(Path(conf.BACKUP_PATH).iterdir(), key=os.path.getmtime):
+        user_path = f"{conf.BACKUP_PATH}/{path.name}/localhost/home"
+        for user in os.listdir(user_path):
+            folders = os.listdir(f"{user_path}/{user}")
+            if len(folders) > 0:
+                backups.append(path)
+
+    return backups
 
 
 def get_cpu():
