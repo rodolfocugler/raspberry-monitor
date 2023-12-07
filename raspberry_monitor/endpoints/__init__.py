@@ -11,4 +11,4 @@ api = Api(
     description="Monitor Raspberry Pi 4.0 - (Ubuntu 64bits)"
 )
 
-api.add_namespace(ns_metric, path="/api")
+api.add_namespace(ns_metric, path="/api/monitor")
