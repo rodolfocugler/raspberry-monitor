@@ -28,7 +28,7 @@ def get_memory():
     memory_line = output[1][4:-1]
     memory_line = re.sub(r"\s+", " ", memory_line)
     memory = memory_line.split(" ")[1:]
-    total, used, free = int(memory[0]), int(memory[1]), int(memory[2])
+    total, used, free = int(memory[0]), int(memory[1]), int(memory[5])
     return calculate_total_used_free_memory(total, used, free)
 
 
