@@ -14,10 +14,7 @@ def get():
         "disk": get_disk(),
         "temperature": get_temperature(),
         "cpu": get_cpu(),
-        "network": {
-            "eth0": get_network("eth0"),
-            "wlan0": get_network("wlan0")
-        }
+        "network": get_network()
     }
 
     if conf.BACKUP_PATH is not None:
@@ -69,7 +66,14 @@ def get_cpu():
     return output["sysstat"]["hosts"][0]["statistics"][0]["cpu-load"][0]
 
 
-def get_network(interface):
+def get_network():
+    return {
+        "eth0": get_network_interface("eth0"),
+        "wlan0": get_network_interface("wlan0")
+    }
+
+
+def get_network_interface(interface):
     stream = os.popen(f"bmon -r 2 -o 'ascii:quitafter=2' -p {interface}")
     output = stream.read().split("\n")[3]
     output = re.sub(r"\s+", " ", output).split(" ")
