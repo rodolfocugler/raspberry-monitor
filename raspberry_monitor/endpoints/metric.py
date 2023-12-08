@@ -1,6 +1,6 @@
 import logging
 
-from flask import abort
+import flask
 from flask_restx import Namespace, Resource
 
 from raspberry_monitor.services import metric_read
