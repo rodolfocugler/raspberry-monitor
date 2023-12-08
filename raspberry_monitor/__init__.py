@@ -2,6 +2,7 @@ import logging
 import os
 
 from flask import Flask
+from flask_cors import CORS
 
 
 def create_app():
@@ -16,10 +17,13 @@ def create_app():
         os.makedirs(app.instance_path)
     except OSError:
         pass
-        
+
     from raspberry_monitor.endpoints import api
     api.init_app(app)
     configure_logging()
+
+    CORS(app, resources={r"*": {"origins": ["*"]}})
+
     return app
 
 
