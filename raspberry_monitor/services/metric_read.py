@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import subprocess
 from pathlib import Path
 
 from raspberry_monitor import config
@@ -19,6 +20,10 @@ def get():
 
     if conf.BACKUP_PATH is not None:
         metrics["backups"] = get_backups()
+
+    if conf.SSH_LOG_PATH is not None:
+        metrics["ssh_accesses"] = get_last_ssh_accesses()
+
     return metrics
 
 
@@ -103,3 +108,13 @@ def calculate_total_used_free(total, used, free):
         "used (%)": (used / total) * 100,
         "free (%)": 100 - ((used / total) * 100)
     }
+
+
+def get_last_ssh_accesses():
+    tail_cmd = subprocess.Popen(("tail", "-n", "1000", conf.SSH_LOG_PATH), stdout=subprocess.PIPE)
+    grep_cmd = subprocess.Popen(("grep", "-ohE", "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}"),
+                                stdin=tail_cmd.stdout, stdout=subprocess.PIPE)
+    ips = subprocess.check_output(("sort", "--unique"), stdin=grep_cmd.stdout).decode("ascii")
+    tail_cmd.wait()
+    grep_cmd.wait()
+    return ips.split("\n")[:-1]
