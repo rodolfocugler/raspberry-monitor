@@ -1,10 +1,9 @@
-import logging
-
 import flask
+import logging
 from flask_restx import Namespace, Resource
 
-from raspberry_monitor.services import metric_read
 from raspberry_monitor import config
+from raspberry_monitor.services import metric_read
 
 api = Namespace("metrics")
 
@@ -40,6 +39,8 @@ class Metric(Resource):
             metric = metric_read.get_network()
         elif conf.BACKUP_PATH is not None and resource == "backups":
             metric = metric_read.get_backups()
+        elif conf.SSH_LOG_PATH is not None and resource == "ssh_accesses":
+            metric = metric_read.get_last_ssh_accesses()
         else:
             flask.abort(400, "Resource is invalid")
 
